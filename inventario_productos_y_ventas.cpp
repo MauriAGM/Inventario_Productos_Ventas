@@ -46,7 +46,7 @@ void RegistrarProducto (){
     }
     string nombreIngresado;
     float precioIngresado;
-    cout << "\n===== Registrar Producto =====\n";
+    cout << "\n===== REGISTRAR PRODUCTO =====\n";
     cin.ignore();
     cout << "Nombre del producto: ";
     getline(cin, nombreIngresado);
@@ -57,7 +57,7 @@ void RegistrarProducto (){
             return;
         }
     }
-    cout << "Precio del producto: ";
+    cout << "Ingrese el precio del producto: ";
     cin >> precioIngresado;
     if (precioIngresado <= 0) {
         cout << "Error: El precio debe ser mayor que cero.\n";
@@ -66,28 +66,33 @@ void RegistrarProducto (){
     productos[totalProductos].nombre = nombreIngresado;
     productos[totalProductos].precio = precioIngresado;
     totalProductos++;
+    cout << "Producto registrado exitosamente.\n";
 }
 
 void ListaProducto (){
+    cout << "\n=== LISTA DE PRODUCTOS REGISTRADOS ===\n";
     if (totalProductos == 0){
         cout << "\nNo hay productos registrados\n";
         return;
     }
     for (int i = 0; i < totalProductos; i++){
-        cout << productos[i].nombre << " -> " << productos[i].precio << endl;
+        cout << i + 1 << ". " << productos[i].nombre << " - S/ " << productos[i].precio << endl;
+        cout << endl;
     }   
 }
 
 void BuscarProducto (){
     string nombre;
     cin.ignore();
+    cout << "\n=== BUSCAR PRODUCTO ===\n";
     cout << "Ingrese el nombre del producto: ";
     getline(cin, nombre);
     bool encontrado = false;
     for (int i = 0; i < totalProductos; i++){
         if (productos[i].nombre == nombre){
-            cout << "Producto encontrado: ";
-            cout << productos[i].nombre << " -> " << productos[i].precio << endl;
+            cout << "Producto encontrado: " << productos[i].nombre << " - S/ " << productos[i].precio << endl;
+            encontrado = true;
+            cout << endl;
         }
     }
     if (encontrado == false) {
@@ -102,22 +107,28 @@ void ActualizarProducto (){
     }
     string nombre;
     cin.ignore();
+    cout << "\n=== ACTUALIZAR PRODUCTO ===\n";
     cout << "Ingrese el nombre del producto: ";
     getline(cin, nombre);
-
+    bool encontrado = false;
     for (int i = 0; i < totalProductos; i++){
         if (productos[i].nombre == nombre){
+            encontrado = true;
             cout << "Nuevo nombre de producto: ";
             getline(cin,productos[i].nombre);
             cout << "Nuevo precio de producto: ";
             cin >> productos[i].precio;
             if (productos[i].precio <= 0) {
             cout << "Error: El precio debe ser mayor que cero.\n";
-            return;
+            return; 
             }
+            cout << "Producto actualizado correctamente.\n";
+            return;
         }
     }
-
+    if (encontrado == false){
+        cout << "Producto no encontrado.\n";
+    }
 }
 
 void EliminarProducto (){
@@ -127,6 +138,7 @@ void EliminarProducto (){
     }
     string nombre;
     cin.ignore();
+    cout << "\n=== ELIMINAR PRODUCTO ===\n";
     cout << "Ingrese el nombre del producto: ";
     getline(cin, nombre);
     bool encontrado = false;
@@ -153,6 +165,7 @@ void RegistrarVenta (){
     }
     string nombre;
     cin.ignore();
+    cout << "\n=== REGISTRAR VENTA ===\n";
     cout << "Ingrese el nombre del producto vendido: ";
     getline(cin, nombre);
     int cantidad;
@@ -169,21 +182,24 @@ void RegistrarVenta (){
             ventas[totalV].cantidad = cantidad;
             ventas[totalV].precioTotal = productos[i].precio * cantidad;
             totalV++;
+            cout << "Venta registrada exitosamente.\n";
             return;
         }
     }
     cout << "Producto no encotrado\n";
 }
 void ListaVenta (){
+    cout << "\n=== VENTAS REALIZADAS ===\n";
     if (totalV == 0){
         cout << "No hay ventas registradas.\n";
         return;
     }
     for (int i = 0; i < totalV; i++){
-        cout << "Venta ID" << ventas[i].IdVenta;
-        cout << "Producto : " << ventas[i].producto;
-        cout << "Cantidad : " << ventas[i].cantidad;
-        cout << "Total: " << ventas[i].precioTotal << endl;
+        cout << "Venta ID: " << ventas[i].IdVenta;
+        cout << " | Producto : " << ventas[i].producto;
+        cout << " | Cantidad : " << ventas[i].cantidad;
+        cout << " | Total:  S/ " << ventas[i].precioTotal << endl;
+        cout << endl;
     }
 }
 
@@ -191,14 +207,16 @@ void TotalVenta (){
     float total = 0;
     for (int i = 0; i < totalV; i++){
         total += ventas[i].precioTotal;
-        cout << total;
     }
+    cout << "\n=== TOTAL DE VENTAS ===\n";
+    cout << "S/ " << total << "\n";
     
 }
 
 void menu (){
     char opcion;
     do {
+        cout << "\n========== MENU PRINCIPAL ==========\n";
         cout << "A: Registrar un nuevo producto. " << endl;
         cout << "B: Listar los productos registrados. " << endl;
         cout << "C: Buscar un producto por nombre. " << endl;
@@ -208,7 +226,10 @@ void menu (){
         cout << "G: Listar las ventas realizadas. " << endl;
         cout << "H: Calcular el total de ventas realizadas. " << endl;
         cout << "S: Salir del programa." << endl;
+        cout << "====================================\n";
+        cout << "Seleccione una opcion: ";
         cin >> opcion;
+        opcion = toupper(opcion);
         switch (opcion){
             case 'A' :
                 RegistrarProducto();
@@ -235,10 +256,10 @@ void menu (){
                 TotalVenta();
                 break;
             case 'S' :
-                cout << "Saliendo del programa......" << endl;
+                cout << "Saliendo del programa......\n" << endl;
                 break;
             default :
-                cout << "Opcion Invalida. Intente Nuevamente. " << endl;
+                cout << "Opcion Invalida. Intente Nuevamente.\n" << endl;
         }   
     } while (opcion != 'S');
 }
